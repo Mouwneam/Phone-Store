@@ -9,3 +9,7 @@
 .dark {
   --text: ;
 }
+
+body{
+  box-sizing: border-box;
+}
