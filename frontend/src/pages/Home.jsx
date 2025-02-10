@@ -15,15 +15,8 @@ const Home = () => {
     </div>
   );
 
-  const mainBody = async () => {
-    await products.length;
-    const bod = products.length > 0 ? emptyProduct : "";
-    return bod;
-  };
-
   useEffect(() => {
     getAllProducts();
-    mainBody();
   }, [getAllProducts]);
 
   /*console.log("products: ", products);
