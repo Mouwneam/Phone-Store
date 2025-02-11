@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const backendKey = process.env.REACT_APP_API_URL;
+const backendKey = process.env.VITE_API_URL;
 
 export const useProductStore = create((set) => ({
   products: [],
