@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+const backendKey = process.env.REACT_APP_API_KEY;
+
 export const useProductStore = create((set) => ({
   products: [],
   loading: false,
@@ -8,7 +10,7 @@ export const useProductStore = create((set) => ({
     if (!newProduct.productName || !newProduct.price || !newProduct.image) {
       return { success: false, message: "Please fill in all fields." };
     }
-    const res = await fetch("http://localhost:5000/api/products", {
+    const res = await fetch(`${backendKey}/api/products`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,12 +23,12 @@ export const useProductStore = create((set) => ({
   },
   getAllProducts: async () => {
     set({ loading: true });
-    const fetchProducts = await fetch("http://localhost:5000/api/products");
+    const fetchProducts = await fetch(`${backendKey}/api/products`);
     const data = await fetchProducts.json();
     set({ products: data.data, loading: false });
   },
   deleteProduct: async (pid) => {
-    const res = await fetch(`http://localhost:5000/api/products/${pid}`, {
+    const res = await fetch(`${backendKey}/api/products/${pid}`, {
       method: "DELETE",
     });
 
