@@ -36,7 +36,7 @@ const Home = () => {
           <div>{loading && <p>Loading</p>}</div>
           <div className="grid grid-cols-3 gap-10 max-lg:grid-cols-2 max-sm:grid-cols-1 w-full">
             {products.map((product) => (
-              <ProductCard key={product.id} data={product}></ProductCard>
+              <ProductCard key={product._id} data={product}></ProductCard>
             ))}
           </div>
         </div>
