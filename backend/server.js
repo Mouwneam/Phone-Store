@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: "https://phone-store-rosy.vercel.app/",
+  origin: "https://phone-store-rosy.vercel.app",
   optionsSuccessStatus: 200,
 };
 
