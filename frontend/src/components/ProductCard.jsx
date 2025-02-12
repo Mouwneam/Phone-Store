@@ -16,12 +16,13 @@ const ProductCard = ({ data }) => {
   };
 
   return (
-    <div className="border w-full h-full rounded-xl shadow-lg">
+    <div className="border w-full h-[470px] rounded-xl shadow-lg">
       <div className="w-full h-[300px] bg-white rounded-t-xl">
         <img
           className="h-full w-full rounded-t-xl object-cover object-center"
           src={data.image}
           alt=""
+          loading="lazy"
         />
       </div>
 
