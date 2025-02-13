@@ -33,7 +33,7 @@ const Home = () => {
       <section className="flex flex-col justify-center items-center mt-10">
         <div className="w-[90%] flex flex-col items-center ">
           <h4 className="text-4xl mb-7 font-semibold">Products</h4>
-          <div>{loading && <p>Loading</p>}</div>
+          <div>{loading && <p>Loading...</p>}</div>
           <div className="grid grid-cols-3 gap-10 max-lg:grid-cols-2 max-sm:grid-cols-1 w-full">
             {products.map((product) => (
               <ProductCard key={product._id} data={product}></ProductCard>
