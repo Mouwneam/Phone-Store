@@ -42,7 +42,7 @@ export const createProduct = async (req, res) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { folder: "products" },
         (error, result) => {
-          if (error) reject(error);
+          if (error) return reject(error);
           else resolve(result);
         }
       );
