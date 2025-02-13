@@ -5,12 +5,16 @@ import {
   getProduct,
   updateProduct,
 } from "../controllers/product.controller.js";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const router = express.Router();
 
 router.get("/", getProduct);
 
-router.post("/", createProduct);
+router.post("/", upload.single("image"), createProduct);
 
 router.put("/:id", updateProduct);
 

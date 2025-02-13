@@ -7,10 +7,18 @@ const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
     productName: "",
     price: "",
-    image: "",
+    image: null,
   });
 
   const { createProducts } = useProductStore();
+
+  const handleFileChange = (e) => {
+    const file = e.target.file[0];
+    setNewProduct({ ...newProduct, image: file });
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
 
   const handleAddProduct = async (event) => {
     event.preventDefault();
@@ -20,7 +28,7 @@ const CreatePage = () => {
     } else {
       toast.success(message);
     }
-    setNewProduct({ productName: "", price: "", image: "" });
+    setNewProduct({ productName: "", price: "", image: null });
   };
 
   return (
@@ -75,13 +83,12 @@ const CreatePage = () => {
               <div className="flex justify-between max-sm:flex-col gap-2">
                 <label className="mr-5">Product image</label>
                 <input
-                  className="px-3 rounded-sm dark:bg-[#6d6d6d] w-[350px] border"
+                  type="file"
+                  className=" rounded-sm dark:bg-[#6d6d6d] w-[350px]"
                   name="image"
-                  placeholder="Product Image"
-                  value={newProduct.image}
-                  onChange={(e) =>
-                    setNewProduct({ ...newProduct, image: e.target.value })
-                  }
+                  //placeholder="Product Image"
+                  //value={newProduct.image}
+                  onChange={handleFileChange}
                 />
               </div>
               <div className="flex justify-end">

@@ -1,5 +1,20 @@
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
+import { v2 as cloudinary } from "cloudinary";
+import dotenv from "dotenv";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: "dtwfksmbt",
+  secure: true,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export const getProduct = async (req, res) => {
   try {
@@ -12,17 +27,45 @@ export const getProduct = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  const product = req.body; // user will send this data
-
-  if (!product.productName || !product.price || !product.image) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Please provide all fields" });
-  }
-
-  const newProduct = new Product(product);
-
   try {
+    const { productName, price } = req.body; // user will send this data
+    const productImg = req.file;
+
+    if (!productName || !price || !productImg) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all fields",
+      });
+    }
+
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: "products" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      uploadStream.end(productImg.buffer);
+    });
+
+    const imgUrl = result.secure_url;
+
+    //const newProduct = new Product(product);
+    const newProduct = new Product({
+      productName,
+      price,
+      image: imgUrl,
+    });
+
+    /*try {
+    await newProduct.save();
+    res.status(201).json({ success: true, data: newProduct });
+  } catch (error) {
+    console.error("Error in create product:", error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }*/
+
     await newProduct.save();
     res.status(201).json({ success: true, data: newProduct });
   } catch (error) {
@@ -34,6 +77,7 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const product = req.body;
+  const productImg = req.file;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ success: false, message: "Invalid ID" });

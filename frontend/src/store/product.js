@@ -10,12 +10,19 @@ export const useProductStore = create((set) => ({
     if (!newProduct.productName || !newProduct.price || !newProduct.image) {
       return { success: false, message: "Please fill in all fields." };
     }
+
+    const formData = new FormData();
+    formData.append("productName", newProduct.productName);
+    formData.append("price", newProduct.price);
+    formData.append("image", newProduct.image);
+
     const res = await fetch(`${backendKey}/api/products`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newProduct),
+      /*headers: {
+        "Content-Type": "json/application",
+      },*/
+      //body: JSON.stringify(newProduct),
+      body: formData,
     });
     const data = await res.json();
     set((state) => ({ products: [...state.products, data.data] }));
