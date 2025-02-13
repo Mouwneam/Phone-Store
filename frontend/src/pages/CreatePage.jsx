@@ -13,10 +13,9 @@ const CreatePage = () => {
   const { createProducts } = useProductStore();
 
   const handleFileChange = (e) => {
-    const file = e.target.file[0];
-    setNewProduct({ ...newProduct, image: file });
-    if (file) {
-      setPreview(URL.createObjectURL(file));
+    if (e.target.files) {
+      const file = e.target.files[0];
+      setNewProduct({ ...newProduct, image: file });
     }
   };
 

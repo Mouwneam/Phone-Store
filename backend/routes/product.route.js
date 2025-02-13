@@ -4,11 +4,8 @@ import {
   deleteProduct,
   getProduct,
   updateProduct,
+  upload,
 } from "../controllers/product.controller.js";
-import multer from "multer";
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 const router = express.Router();
 
